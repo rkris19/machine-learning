@@ -11802,7 +11802,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[58]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Import libraries necessary for this project</span>
@@ -11820,6 +11820,7 @@ div#notebook {
 <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;housing.csv&#39;</span><span class="p">)</span>
 <span class="n">prices</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;MEDV&#39;</span><span class="p">]</span>
 <span class="n">features</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;MEDV&#39;</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+
 
 <span class="c1"># Success</span>
 <span class="k">print</span> <span class="s1">&#39;Boston housing dataset has {0} data points with {1} variables each&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
@@ -11842,6 +11843,45 @@ div#notebook {
 <pre>Boston housing dataset has 489 data points with 4 variables each
 </pre>
 </div>
+</div>
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[8]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>RM</th>
+      <th>LSTAT</th>
+      <th>PTRATIO</th>
+      <th>MEDV</th>
+    </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
+</div>
+</div>
+
 </div>
 
 </div>
@@ -13794,7 +13834,11 @@ if the model is trianed with depth=10 then the traing score would be high but th
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer: </strong>
 Model with Max_depth =3 would be the best fit since the training and testing scores are high.
-the other models have either low scores or the curves are not convering which represents underfitting and overfitting models respectively.</p>
+the other models have either low scores or the curves are not convering which represents underfitting and overfitting models respectively.
+Initially the the gap between training and testing score seems to be more on further evaluation both curves looks 
+to be converging at some point.They both seems to be very close at 350.</p>
+<p>Adding further data might not be helpful since we are able to visualize the curves are converging with Max_depth =3.
+To visualize more on the convergence we need to fine tune the Max_depth.</p>
 
 </div>
 </div>
@@ -13828,6 +13872,8 @@ the other models have either low scores or the curves are not convering which re
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer: </strong>
 Grid Search technique means set of models with different parameters are compared so as to optimize the parameters.Models with different parameters are implemented and compared and validated against each other to obtain the optimal value for the parametrs that were considered in predicting the model.</p>
+<p>Grid Search runs the model one at time with  different parameters after the results are obtained it compares the scores 
+obtined by model with specific parameter compares the scores obtained for a model to specific parameter and finds the optimal solution. In SK learn we create a score function to calculate the score and pass it to the GridSearchCV which determines the optimal parameter based on the evaluations</p>
 
 </div>
 </div>
@@ -13855,6 +13901,12 @@ Grid Search technique means set of models with different parameters are compared
 <p><strong>Answer: </strong>
     K-Fold cross validation means we separate the data into K training, cross validation,testing data and run the model regressively over the training and cross validation data and minimize the erros on successeive regressions to obtain the model.
     When we are optimizing the model using grid search each model is run regressively using K-Fold technique to find the optmal prediction which further used to compare using the graph technique.</p>
+<p>1.Data is divided into K bins with equal split and each bin contains n/k data. 
+ 2.Each subset contains training and cross validation data .
+ 3.Run the model with each set and perform the cross validation and minimize the error.
+ 4.Adjust the model and run on the next set
+ 5.Average the test results from k passes</p>
+<p>If single subset is used there would be bias that would creep in ,Using the k-fold model we are eleminating  the biases that would creep in during the individual test run .By correcting the individual test run with the cross validation we are potentially removing the error.Using the graph model we ar potentially comparing the runs with different parameter to further identify the optimalparameter</p>
 
 </div>
 </div>
@@ -13994,7 +14046,8 @@ For the <code>fit_model</code> function in the code cell below, you will need to
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong> Hint: </strong> The answer comes from the output of the code snipped above.</p>
-<p><strong>Answer: </strong>Parameter 'max_depth' is 4 for the optimal model.</p>
+<p><strong>Answer: </strong>Parameter 'max_depth' is 4 for the optimal model.The result in question 6 gives us the rough estimate as 3
+based on the the visualization on further predictions with the decision tree the good model turns out to be the one with max_depth as 4</p>
 
 </div>
 </div>
@@ -14091,6 +14144,11 @@ Predicted selling price for Client 3&#39;s home: $942,666.67
 Predicted selling price for Client 1's home: $391,183.33
 Predicted selling price for Client 2's home: $189,123.53
 Predicted selling price for Client 3's home: $942,666.67</p>
+<p>Client1 selling price $391,183.33 is with the range of $454,342.94 and standard deviation $165,171.13 and the student to teacher is more compared to the client 3 hence the price seems to be good .
+Client2 lives in poverty prone area compared to client1 further client2 zone has very high student to teacher ratio
+so i would recommend the price $189,123.53
+Client3 lives in the high income zone and number of rooms are more compared to the other clients which makes his home 
+more sought compared to the other 2 clients.The student to teacher ratio is very less as well the price $942,666.67 . I would suggest the price to the client3</p>
 
 </div>
 </div>
@@ -14175,7 +14233,9 @@ Range in prices: $69,044.61
 Some factors like inflation may be able to correct the prices to the current generation but the variation of incomes might be subtle unless they are collected fresh. Many new professions like software engineering and robotics engineering might have influenced income in 
 large scale and some professions have become obsolete.
     There could be other parameters that influence the home other than the metrics that are colelcted like the crime rate ,population growth in the locality,avrage income of near by zipcodes.
-    The model would be more accurate if there were more dimensions added to the decisioning like multiple factors mentioned above.The current model constitutes of vital parameters like income ,number of rooms,schools so the model could be used for predictions but not robust.</p>
+    The model would be more accurate if there were more dimensions added to the decisioning like multiple factors mentioned above.The current model constitutes of vital parameters like income ,number of rooms,schools so the model could be used for predictions but not robust. 
+    This model should not be used in real world settings as the model does not have comprehensive list
+ of attributes that contribute to the house price . Further the data is collected long time back which is not applicable to the current situation</p>
 
 </div>
 </div>
